@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Kick Live Status Setup",
-        "description": "Log in to kick [Go to Settings>Developer](https://kick.com/settings/developer) and click on **Create** to obtain your Client ID and Client Secret.",
+        "description": "Log in to your Kick account, go to Developer Settings, and click Create to obtain your Client ID and Client Secret.",
         "data": {
           "client_id": "Client ID",
           "client_secret": "Client Secret",
