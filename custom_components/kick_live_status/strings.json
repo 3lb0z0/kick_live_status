@@ -1,0 +1,19 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Kick Live Status Setup",
+        "description": "Log in to kick [Go to Settings>Developer](https://kick.com/settings/developer) and click on **Create** to obtain your Client ID and Client Secret.",
+        "data": {
+          "client_id": "Client ID",
+          "client_secret": "Client Secret",
+          "streamers": "Streamers (comma separated)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to Kick API.",
+      "invalid_auth": "Invalid Client ID or Client Secret."
+    }
+  }
+}

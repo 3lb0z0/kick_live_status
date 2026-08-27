@@ -1,0 +1,9 @@
+{
+  "domain": "kick_live_status",
+  "name": "Kick Live Status",
+  "codeowners": ["@3lb0z0"],
+  "config_flow": true,
+  "documentation": "https://github.com/3lb0z0/kick_live_status",
+  "iot_class": "cloud_polling",
+  "version": "1.0.0"
+}
