@@ -81,8 +81,16 @@ class KickStreamerSensor(CoordinatorEntity, SensorEntity):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._streamer = streamer
+        
+        # Display name shown in UI cards (e.g., "iceposeidon")
         self._attr_name = streamer
+        
+        # Unique ID for Home Assistant registry
         self._attr_unique_id = f"kick_live_status_{streamer.lower()}"
+        
+        # Explicit entity ID format (e.g., "sensor.kick_iceposeidon")
+        self.entity_id = f"sensor.kick_{streamer.lower()}"
+        
         self._attr_icon = "mdi:television-play"
 
     @property
