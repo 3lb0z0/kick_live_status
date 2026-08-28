@@ -46,14 +46,14 @@ To use this integration, you need a **Client ID** and **Client Secret** from Kic
 
 1. In Home Assistant, go to **Settings > Devices & Services**.
 2. Click **Add Integration** and search for **Kick Live Status**.
-3. Enter your **Client ID**, **Client Secret**, and a comma-separated list of streamer handles (e.g., `iceposeidon, xqc, asmongold, adinross`).
+3. Enter your **Client ID**, **Client Secret**, and a comma-separated list of streamer handles (e.g., `iceposeidon,xqc,asmongold,adinross`).
 4. Click **Submit**.
 
 ---
 
 ## Available Attributes
 
-Each streamer entity (`sensor.kick_live_status_<streamer_name>`) provides the following state attributes when live:
+Each streamer entity (`sensor.kick_<streamer_name>`) provides the following state attributes when live:
 
 | Attribute | Description |
 | :--- | :--- |
