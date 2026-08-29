@@ -8,5 +8,5 @@
   "documentation": "https://github.com/3lb0z0/kick_live_status",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/3lb0z0/kick_live_status/issues",
-  "version": "1.0.3"
+  "version": "1.1.0"
 }
