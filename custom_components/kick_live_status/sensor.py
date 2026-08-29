@@ -1,19 +1,16 @@
 """Sensor platform for Kick Live Status integration."""
-import asyncio
-from datetime import timedelta
 import logging
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
     DataUpdateCoordinator,
 )
 
-from .const import CONF_STREAMERS, DEFAULT_SCAN_INTERVAL, DOMAIN, KICK_API_BASE_URL
+from .const import CONF_STREAMERS, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -24,57 +21,8 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Kick Live Status sensors based on a config entry."""
+    coordinator: DataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
     streamers = entry.options.get(CONF_STREAMERS, entry.data.get(CONF_STREAMERS, []))
-    client_id = entry.data.get("client_id")
-    access_token = entry.data.get("access_token")
-
-    async def async_update_data():
-        """Fetch updated channel data from Kick API concurrently in parallel."""
-        headers = {
-            "Authorization": f"Bearer {access_token}",
-            "Client-ID": client_id,
-            "Accept": "application/json",
-        }
-        client_session = async_get_clientsession(hass)
-
-        async def fetch_streamer(streamer: str):
-            url = f"{KICK_API_BASE_URL}/channels?slug={streamer}"
-            try:
-                async with client_session.get(url, headers=headers) as response:
-                    if response.status == 200:
-                        payload = await response.json()
-                        channels = payload.get("data", [])
-                        if channels:
-                            return streamer, channels[0]
-                    else:
-                        _LOGGER.warning(
-                            "Failed to fetch data for %s: Status %s",
-                            streamer,
-                            response.status,
-                        )
-            except Exception as err:
-                _LOGGER.error("Error updating Kick streamer %s: %s", streamer, err)
-            return streamer, None
-
-        # Execute all HTTP fetches in parallel
-        results = await asyncio.gather(*(fetch_streamer(s) for s in streamers))
-
-        # Build final data dictionary
-        return {
-            streamer: channel_data
-            for streamer, channel_data in results
-            if channel_data is not None
-        }
-
-    coordinator = DataUpdateCoordinator(
-        hass,
-        _LOGGER,
-        name="Kick Live Status Coordinator",
-        update_method=async_update_data,
-        update_interval=timedelta(seconds=DEFAULT_SCAN_INTERVAL),
-    )
-
-    await coordinator.async_config_entry_first_refresh()
 
     entities = [
         KickStreamerSensor(coordinator, streamer) for streamer in streamers
