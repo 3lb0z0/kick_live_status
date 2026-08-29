@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="brand/logo.png" alt="Kick Live Status Banner" width="100%">
+  <img src="https://raw.githubusercontent.com/3lb0z0/kick_live_status/main/brand/logo.png" alt="Kick Live Status Banner" width="100%">
 </p>
 
 <p align="center">
@@ -8,8 +8,6 @@
 </p>
 
 # Kick Live Status for Home Assistant
-
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/default)
 
 A Home Assistant custom integration to monitor the live status, stream titles, categories, and viewer counts of Kick.com streamers.
 
