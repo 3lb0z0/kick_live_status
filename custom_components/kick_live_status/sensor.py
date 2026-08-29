@@ -90,29 +90,50 @@ class KickStreamerSensor(CoordinatorEntity, SensorEntity):
         super().__init__(coordinator)
         self._streamer = streamer
 
-        # Display name shown in UI cards (e.g., "iceposeidon")
+        # Display name shown in UI cards (e.g., "nickwhite")
         self._attr_name = streamer
 
         # Unique ID for Home Assistant registry
         self._attr_unique_id = f"kick_live_status_{streamer.lower()}"
 
-        # Explicit entity ID format (e.g., "sensor.kick_iceposeidon")
+        # Explicit entity ID format (e.g., "sensor.kick_nickwhite")
         self.entity_id = f"sensor.kick_{streamer.lower()}"
 
-        self._attr_icon = "mdi:television-play"
+    @property
+    def icon(self) -> str:
+        """Return dynamic MDI icon depending on live state."""
+        channel_data = self.coordinator.data.get(self._streamer, {})
+        stream_info = channel_data.get("stream", {})
+        if isinstance(stream_info, dict) and stream_info.get("is_live"):
+            return "mdi:television-play"
+        return "mdi:television-off"
+
+    @property
+    def entity_picture(self) -> str | None:
+        """Return the live stream preview thumbnail if online."""
+        channel_data = self.coordinator.data.get(self._streamer, {})
+        stream_info = channel_data.get("stream", {})
+
+        if isinstance(stream_info, dict) and stream_info.get("is_live"):
+            thumbnail = stream_info.get("thumbnail")
+            if thumbnail:
+                return thumbnail
+
+        # Returning None forces Home Assistant to fall back to self.icon
+        return None
 
     @property
     def native_value(self) -> str:
         """Return 'live' or 'offline' based on stream payload."""
         channel_data = self.coordinator.data.get(self._streamer, {})
         stream_info = channel_data.get("stream", {})
-        if stream_info and stream_info.get("is_live"):
+        if isinstance(stream_info, dict) and stream_info.get("is_live"):
             return "live"
         return "offline"
 
     @property
     def extra_state_attributes(self) -> dict[str, str | int | None]:
-        """Return stream title, category, viewer count, start time, and streamer name."""
+        """Return stream title, category, viewer count, start time, thumbnail, and streamer name."""
         channel_data = self.coordinator.data.get(self._streamer, {})
         stream_info = channel_data.get("stream", {})
         category_info = channel_data.get("category", {})
@@ -138,6 +159,11 @@ class KickStreamerSensor(CoordinatorEntity, SensorEntity):
             ),
             "start_time": (
                 stream_info.get("start_time")
+                if isinstance(stream_info, dict) and is_live
+                else None
+            ),
+            "thumbnail_url": (
+                stream_info.get("thumbnail")
                 if isinstance(stream_info, dict) and is_live
                 else None
             ),
