@@ -1,3 +1,12 @@
+<p align="center">
+  <img src="brand/logo.png" alt="Kick Live Status Banner" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://github.com/hacs/default"><img src="https://img.shields.io/badge/HACS-Custom-orange.svg" alt="HACS"></a>
+  <a href="https://github.com/3lb0z0/kick_live_status/releases"><img src="https://img.shields.io/github/v/release/3lb0z0/kick_live_status" alt="Release"></a>
+</p>
+
 # Kick Live Status for Home Assistant
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/default)
