@@ -20,9 +20,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Kick Live Status from a config entry."""
     _LOGGER.info("Setting up Kick Live Status integration")
 
-    streamers = entry.options.get(CONF_STREAMERS, entry.data.get(CONF_STREAMERS, []))
+    raw_streamers = entry.options.get(CONF_STREAMERS, entry.data.get(CONF_STREAMERS, []))
+    streamers = list(dict.fromkeys(raw_streamers))
+
     client_id = entry.data.get("client_id")
     access_token = entry.data.get("access_token")
+
+    coordinator = None
 
     async def async_update_data():
         """Fetch updated channel data from Kick API concurrently in parallel."""
@@ -32,6 +36,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             "Accept": "application/json",
         }
         client_session = async_get_clientsession(hass)
+
+        # Retrieve cached state from previous update cycle
+        existing_data = coordinator.data if coordinator and coordinator.data else {}
 
         async def fetch_streamer(streamer: str):
             url = f"{KICK_API_BASE_URL}/channels?slug={streamer}"
@@ -50,7 +57,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                         )
             except Exception as err:
                 _LOGGER.error("Error updating Kick streamer %s: %s", streamer, err)
-            return streamer, None
+
+            # Fallback: retain previous valid data if available, instead of returning None
+            return streamer, existing_data.get(streamer)
 
         results = await asyncio.gather(*(fetch_streamer(s) for s in streamers))
 
