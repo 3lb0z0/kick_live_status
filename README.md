@@ -19,7 +19,11 @@ A Home Assistant custom integration to monitor the live status, stream titles, c
 - **Rich Attributes:** Exposes stream title, category/game, current viewer count, and stream start time.
 - **Config Flow Setup:** Easy UI configuration directly in Home Assistant—no YAML required.
 - **Options Flow:** Easily add or remove tracked streamers anytime via the integration settings.
-- **Live Stream Thumbnails** Sensors dynamically display live stream thumbnails (`entity_picture`) when a streamer goes live, with seamless fallback to MDI icons when offline.
+- **Live Stream Thumbnails:** Sensors dynamically display live stream thumbnails (`entity_picture`) when a streamer goes live, with seamless fallback to MDI icons when offline.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/3lb0z0/kick_live_status/main/brand/dashboard.png" alt="Dashboard Preview" width="100%">
+</p>
 
 ---
 
@@ -76,3 +80,11 @@ Each streamer entity (`sensor.kick_<streamer_name>`) provides the following stat
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Disclaimer
+
+This integration is an independent, open-source project and is **not affiliated, associated, authorized, endorsed by, or in any way officially connected with Kick.com** or any of its subsidiaries or affiliates. 
+
+All product names, logos, brands, and trademarks are property of their respective owners.
