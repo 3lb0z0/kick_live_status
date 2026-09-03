@@ -22,7 +22,7 @@ A Home Assistant custom integration to monitor the live status, stream titles, c
 - **Live Stream Thumbnails:** Sensors dynamically display live stream thumbnails (`entity_picture`) when a streamer goes live, with seamless fallback to MDI icons when offline.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/3lb0z0/kick_live_status/main/brand/dashboard.png" alt="Dashboard Preview" width="50%">
+  <img src="https://raw.githubusercontent.com/3lb0z0/kick_live_status/main/brand/dashboard.png" alt="Dashboard Preview" width="75%">
 </p>
 
 ---
